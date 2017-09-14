@@ -103,7 +103,7 @@
 				</button>
 			</div>
 			<div class="btn-group" role="group" aria-label="Third group">
-				<button id="btn-button" type="button"
+				<button id="btn-excluir-musica" type="button"
 					class="btn btn-danger glyphicon glyphicon-trash"
 					data-toggle="modal" data-target="#modalConfimaExclusao">
 					<spring:message code="bt.excluir" />

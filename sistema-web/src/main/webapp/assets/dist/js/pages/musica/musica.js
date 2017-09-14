@@ -157,6 +157,7 @@ $(document).on("click",".editMusicaLink",function() {
 		success: function(data){
 			carregarForm(data);
 			$('a[href="#musica-cadastro-tab"]').tab('show');
+			$('#btn-excluir-musica').attr('disabled', false);
 		}
 	});
 });
@@ -224,11 +225,13 @@ $('#link-artista-novo').click(function(){
 function limpar(){
 	form.reset();
 
+	$('#input-hidden-musica-id').val(null);
 	$('#input-musica-nome').val(null);
 	$('#input-musica-artista').val(null);
 	$('#input-musica-album').val(null);
 	$('#input-musica-genero').val(null);
 	carregaComboArtista(null);
+	$('#btn-excluir-musica').attr('disabled', true);
 
 }
 
