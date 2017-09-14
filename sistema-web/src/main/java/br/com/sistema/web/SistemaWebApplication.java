@@ -26,8 +26,8 @@ public class SistemaWebApplication {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 
         //Set the maximum allowed size (in bytes) for each individual file.
-        resolver.setMaxUploadSizePerFile(5242880);//5MB
-        resolver.setMaxUploadSize(5242880);
+        resolver.setMaxUploadSizePerFile(50242880);
+        resolver.setMaxUploadSize(50242880);
         resolver.setDefaultEncoding("utf-8");
         //You may also set other available properties.
 

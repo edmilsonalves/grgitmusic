@@ -5,10 +5,11 @@
 
 <form id="musica-form" role="form">
 
-	<input type="hidden" id="input-hidden-musica-id" name="id">
+	<input type="hidden" id="input-hidden-musica-id" name="id"> <input
+		type="hidden" id="input-hidden-nome-arquivo" name="nomeArquivo">
 
 	<div class="alert alert-danger msg-error" style="display: none;"></div>
-    <div class="alert alert-success msg-sucesso" style="display: none;"></div>
+	<div class="alert alert-success msg-sucesso" style="display: none;"></div>
 
 	<div class="box-body">
 
@@ -35,7 +36,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="combo-artista"> Artista </label>
+					<label for="combo-artista"> ARTISTA </label>
 					<div class="input-group">
 						<span id="link-artista-novo" class="input-group-addon"
 							style="cursor: pointer; background-color: #3c8dbc;"> <a
@@ -53,7 +54,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="input-musica-album"> Album </label>
+					<label for="input-musica-album"> ÁLBUM </label>
 					<div class="input-group">
 						<span class="input-group-addon"> <i
 							class="glyphicon glyphicon-book"></i>
@@ -67,7 +68,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="input-musica-genero"> Genero </label>
+					<label for="input-musica-genero"> GÉNERO </label>
 					<div class="input-group">
 						<span class="input-group-addon"> <i
 							class="glyphicon glyphicon-fire"></i>
@@ -79,6 +80,20 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label id="label-novo-arquivo" for="upload_link">
+						SELECIONE A MÚSICA </label>
+
+					<div class="input-group">
+					<div>
+						<input id="uploadfile" name="uploadfile" class="form-control"
+							type="file" style="color: transparent; width: 110px;" />
+						</div>
+					</div>
+					<span id="label-nome-arquivo"></span>
+				</div>
+
 			</div>
 
 
@@ -124,24 +139,26 @@
 
 <!-- Modal -->
 <div class="modal" id="modalConfimaExclusao" role="dialog">
-   <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-         <div class="modal-header">
-            <h4 class="modal-title">Atenção</h4>
-         </div>
-         <div class="modal-body">
-            <p>Deseja realmente excluir o registro?</p>
-         </div>
-         <div class="modal-footer">
-            <button id="btn-excluir-sim" type="button"
-               class="btn btn btn-primary glyphicon glyphicon-ok" data-dismiss="modal">
-               <spring:message code="label.sim" />
-            </button>
-            <button id="btn-excluir-nao" type="button"
-               class="btn btn-secondary glyphicon glyphicon-remove" data-dismiss="modal">
-               <spring:message code="label.nao" />
-            </button>
-         </div>
-      </div>
-   </div>
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Atenção</h4>
+			</div>
+			<div class="modal-body">
+				<p>Deseja realmente excluir o registro?</p>
+			</div>
+			<div class="modal-footer">
+				<button id="btn-excluir-sim" type="button"
+					class="btn btn btn-primary glyphicon glyphicon-ok"
+					data-dismiss="modal">
+					<spring:message code="label.sim" />
+				</button>
+				<button id="btn-excluir-nao" type="button"
+					class="btn btn-secondary glyphicon glyphicon-remove"
+					data-dismiss="modal">
+					<spring:message code="label.nao" />
+				</button>
+			</div>
+		</div>
+	</div>
 </div>

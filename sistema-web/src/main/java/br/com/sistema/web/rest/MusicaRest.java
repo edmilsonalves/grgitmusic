@@ -1,6 +1,9 @@
 package br.com.sistema.web.rest;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.sistema.web.entity.Artista;
 import br.com.sistema.web.entity.Musica;
@@ -25,6 +30,7 @@ import br.com.sistema.web.util.SUtils;
 
 /**
  * API REST para controle do cadastro de musicas
+ *
  * @author edmilson.reis
  *
  */
@@ -40,6 +46,7 @@ public class MusicaRest {
 
 	/**
 	 * REST pesquisa musicas conforme pesquisa na tela
+	 *
 	 * @param query
 	 * @return
 	 */
@@ -73,6 +80,7 @@ public class MusicaRest {
 
 	/**
 	 * REST Busca musica ao clikar no link para edição
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -97,16 +105,21 @@ public class MusicaRest {
 
 	/**
 	 * REST salva a musica ao clikar no bt salvar
+	 *
 	 * @param musica
 	 * @return
 	 */
-	@CrossOrigin
 	@RequestMapping(value = "/musicas", method = RequestMethod.POST)
-	public ResponseEntity<?> save(@RequestBody Musica musica) {
+	public ResponseEntity<?> save(@RequestPart(value = "musica") Musica musica,
+			@RequestPart(value = "file", required = false) MultipartFile arquivo) {
 		BaseResponse response = new BaseResponse();
 
 		try {
+			String nomeNovoArquivo = SUtils.dataToNomeImg(new Date(), arquivo.getOriginalFilename());
 
+			saveFile(musica, arquivo, nomeNovoArquivo);
+
+			musica.setNomeArquivo(nomeNovoArquivo);
 			this.musicaService.save(musica);
 			response.setDataList(this.musicaService.findAll());
 			response.setTypeError(SUtils.E_USER_SUCESS);
@@ -124,6 +137,7 @@ public class MusicaRest {
 
 	/**
 	 * REST exclui musica ao clikar no icone de exclusão
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -149,6 +163,7 @@ public class MusicaRest {
 
 	/**
 	 * REST pesquisa artistas conforme pesquisa na tela
+	 *
 	 * @return
 	 */
 	@CrossOrigin
@@ -172,6 +187,7 @@ public class MusicaRest {
 
 	/**
 	 * REST salva o artista ao clikar no bt ADD
+	 *
 	 * @param artista
 	 * @return
 	 */
@@ -197,9 +213,9 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-
 	/**
 	 * REST exclui artista ao clikar no icone de exclusão
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -222,6 +238,41 @@ public class MusicaRest {
 		}
 
 		return ResponseEntity.ok(response);
+	}
+
+
+	/**
+	 * salva o arquivo na pasta C:\grgitmusic, caso a pasta não exista será criada antes de gravar
+	 *
+	 * @param musica
+	 * @param arquivo
+	 * @param nomeNovoArquivo
+	 * @throws IOException
+	 */
+	private void saveFile(Musica musica, MultipartFile arquivo, String nomeNovoArquivo) throws IOException {
+
+
+		if (!SUtils.isNull(musica)) {
+
+			String path = "C:\\grgitmusic";
+
+			if (!SUtils.isNull(musica.getId())) {
+				if (!SUtils.isNullOrEmpty(musica.getNomeArquivo())) {
+					File fileRemove = new File(path, musica.getNomeArquivo());
+					fileRemove.delete();
+				}
+			}
+
+			File fileNew = new File(path, nomeNovoArquivo);
+
+			if (!SUtils.isNull(fileNew) && !fileNew.getParentFile().exists())
+				fileNew.getParentFile().mkdirs();
+
+			if (!SUtils.isNull(fileNew) && !fileNew.exists()) {
+				arquivo.transferTo(fileNew);
+				musica.setPathArquivo("C:\\grgitmusic"+ "\\"+nomeNovoArquivo);
+			}
+		}
 	}
 
 }

@@ -63,12 +63,24 @@ function addLinhaTabela(linha){
 
 //salvar musica
 function saveMusica() {
+
+	formData = new FormData();
 	var form = $('#musica-form');
+	var musica = JSON.stringify(form.serializeObject());
+
+	formData.append("musica", new Blob([musica], {
+        type : "application/json"
+    }));
+	var file = $('input[name="uploadfile"]').get(0).files[0];
+	formData.append("file", file);
+
 	$.ajax({
-		type : 'POST',
-		contentType : 'application/json',
 		url : rootMusicaURL,
-		data : JSON.stringify(form.serializeObject()),
+		type : 'POST',
+		processData : false,
+		contentType : false,
+		cache : false,
+		data : formData,
 		success : function(data) {
 
 			if(data.error){
@@ -206,6 +218,8 @@ function carregarForm(data){
 
 	$('#input-hidden-musica-id').val(musica.id);
 	$('#input-musica-nome').val(musica.nomeMusica);
+	$('#input-hidden-nome-arquivo').val(musica.nomeArquivo);
+	$('#label-nome-arquivo').html(musica.nomeArquivo)
 
 	carregaComboArtista(musica.artista.nome);
 
@@ -214,6 +228,15 @@ function carregarForm(data){
 	$('#input-musica-genero').val(musica.genero);
 
 }
+
+$(document).on("change", "#uploadfile", function(e) {
+    var files = this.files;
+
+    if (files && files[0]) {
+        var reader = new FileReader();
+        $("#label-nome-arquivo").html(files[0].name);
+    }
+});
 
 //volta para aba de pesquisa
 $('#btn-musica-voltar').click(function(){
