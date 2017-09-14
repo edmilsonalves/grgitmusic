@@ -1,0 +1,105 @@
+.modal.modal-wide .modal-dialog {
+	width: 50%;
+}
+
+.div-titulo-pagina {
+	background-color: #3E5367;
+}
+
+.titulo-font {
+	font-size: 25px;
+	color: #ECF0F1;
+}
+
+.name2 button {
+	margin-left: 5px;
+}
+
+.btn-facebook {
+	border-radius: 0;
+	background-color: #0971E4;
+	padding-left: 0;
+	border: 0 none;
+}
+
+.btn-facebook>span {
+	padding: 6px 12px;
+	margin-right: 12px;
+	background-color: #0A62C4;
+}
+
+.btn-facebook:hover, .btn-facebook:active, .btn-facebook:focus {
+	background: #0969d6;
+}
+
+.btn-facebook:hover>span, .btn-facebook:active>span, .btn-facebook:focus>span
+	{
+	background: #095bb8;
+}
+
+.hidden-form .calendario {
+	display: none;
+}
+
+.ui-datepicker {
+	z-index: 9999999 !important;
+}
+
+.jquery-waiting-base-container {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	display: block;
+	z-index: 9999997;
+	opacity: 0.65;
+	-moz-opacity: 0.65;
+	filter: alpha(opacity = 65);
+	background: black;
+	background-image: url("../img/ajax-loader.gif");
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	text-align: center;
+	overflow: hidden;
+	font-weight: bold;
+	color: white;
+	padding-top: 29%;
+}
+
+.fontSize {
+	font-size: 15px;
+}
+
+.item:hover .descricao{
+    display: block;
+}
+
+.descricao{
+    display: none;
+}
+
+
+/*Lupa para todos os campos pesquiasr pesquisar*/
+input[type=search] {
+   background: url(../icones/search.png) no-repeat right;
+   width: 360px !important;
+   background-position: left;
+   margin-left: 25px;
+   padding: 15px;
+   padding-left: 32px;
+   font-size: 20px;
+}
+/*Coloca input de pesquisa a esquerda*/
+.pull-left{float:left!important;}
+.pull-right{float:right!important;}
+
+/*ao passar o mouse no link muda a cor do link, aplicado somente nas telas de pesquisa e cadastro*/
+a.link{
+   text-decoration: underline;
+}
+a:hover.link{
+   color:#00FF00;
+   text-decoration: underline;
+}
