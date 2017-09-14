@@ -1,5 +1,5 @@
-// The root URL for the RESTful services
-var rootArtistaURL = "rest/musicas";
+// URL da artista da API rest
+var rootArtistaURL = "rest/musicas/artistas";
 
 $(document).ready(function() {
 	$("#link-add-Artista").prop('disabled', true);
@@ -9,7 +9,7 @@ $(document).ready(function() {
 function carregaArtistaTabela(){
 	$.ajax({
 		type: 'GET',
-		url: rootArtistaURL+"/artistas",
+		url: rootArtistaURL,
 		dataType: "json",
 		success: function(data){
 			$("#artista-table tbody").html("");
@@ -35,7 +35,7 @@ $('#link-add-artista').click(function(){
 	$.ajax({
 		type : 'POST',
 		contentType : 'application/json',
-		url : rootArtistaURL+"/artistas",
+		url : rootArtistaURL,
 		data : JSON.stringify(form.serializeObject()),
 		success : function(data) {
 
@@ -71,7 +71,7 @@ $(document).on("click","#delete-artista-link",function() {
 	var artistaId = $(this).closest('tr').find('td[data-nome]').data('nome');
 	$.ajax({
 		type: 'DELETE',
-		url: rootArtistaURL+"/artistas/"+artistaId,
+		url: rootArtistaURL+"/"+artistaId,
 		success: function(data, textStatus, jqXHR){
 			if(data.error){
 				$('.msg-error-artista').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
@@ -144,7 +144,7 @@ function addLinhaTabelaArtista(linha){
 function carregaComboArtistas(){
 	$.ajax({
 		type: 'GET',
-		url: rootArtistaURL+"/artistas",
+		url: rootArtistaURL,
 		dataType: "json",
 		success: function(data){
 			var options = '<option value="">Selecione...</option>';

@@ -1,4 +1,4 @@
-// The root URL for the RESTful services
+// URL de musicas da API rest
 var rootMusicaURL = "rest/musicas";
 
 var form = $('#musica-form');
