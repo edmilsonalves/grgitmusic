@@ -18,7 +18,6 @@
 			<th>Artista</th>
 			<th>Album</th>
 			<th>Genero</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody class="musica-table-body"></tbody>

@@ -7,8 +7,10 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -399,6 +401,11 @@ public class SUtils {
 
 	public static boolean isNumeric(String str) {
 		return StringUtils.isNumeric(str);
+	}
+
+	public static String dataToNomeImg(Date data, String nome) {
+		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyy-HHmmss");
+		return formatter.format(data) + "-" + nome;
 	}
 
 }

@@ -18,8 +18,7 @@
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
-		<div class="jquery-waiting-base-container" style="display: none;">
-		</div>
+		<div class="jquery-waiting-base-container" style="display: none;"></div>
 		<h1>
 			Musicas <small> Registro de Musicas </small>
 		</h1>
@@ -39,9 +38,8 @@
 
 						<ul class="nav nav-tabs">
 							<li style="float: right">
-								<button type="button" id="js-musica-novo-button"
-									class="btn btn-primary bt-produto-novo glyphicon glyphicon-plus" data-toggle="modal"
-									data-target="#clienteFormModal">
+								<button type="button" id="btn-novo"
+									class="btn btn-primary glyphicon glyphicon-plus">
 									<spring:message code="label.novo" />
 								</button>
 							</li>
@@ -69,6 +67,8 @@
 		<!-- /.row -->
 	</section>
 	<!-- /.content -->
+
+	<jsp:include page="/views/musica/include/artista-modal.jsp" />
 </div>
 
 <!-- DataTables colocar na pagina cliente-->
@@ -76,6 +76,7 @@
 
 <!-- Musica -->
 <script src="assets/dist/js/pages/musica/musicaValidaForm.js"></script>
+<script src="assets/dist/js/pages/musica/artista.js"></script>
 <script src="assets/dist/js/pages/musica/musica.js"></script>
 
 <!-- typeahead -->

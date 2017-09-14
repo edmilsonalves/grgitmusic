@@ -103,7 +103,7 @@
 				</button>
 			</div>
 			<div class="btn-group" role="group" aria-label="Third group">
-				<button id="js-cliente-excluir-button" type="button"
+				<button id="btn-button" type="button"
 					class="btn btn-danger glyphicon glyphicon-trash"
 					data-toggle="modal" data-target="#modalConfimaExclusao">
 					<spring:message code="bt.excluir" />
@@ -111,28 +111,12 @@
 			</div>
 
 			<div class="btn-group" role="group" aria-label="Third group">
-				<button id="js-cliente-limpar-button" type="button"
+				<button id="btn-limpar" type="button"
 					class="btn btn-danger glyphicon glyphicon-refresh">
 					<spring:message code="bt.limpar" />
 				</button>
 			</div>
 		</div>
-
-		<!-- 		<div id="div-excluir-cliente" class="col-xs-8 .col-sm-4"> -->
-		<!-- 			<div class="alert alert-danger"> -->
-		<%-- 				<strong> <spring:message code="label.cliente.atencao" /> --%>
-		<!-- 				</strong> -->
-		<%-- 				<spring:message code="msg.cliente.confirmacao" /> --%>
-		<!-- 			</div> -->
-		<!-- 			<button id="js-cliente-sim-button" type="button" -->
-		<!-- 				class="btn btn btn-primary glyphicon glyphicon-ok"> -->
-		<%-- 				<spring:message code="label.sim" /> --%>
-		<!-- 			</button> -->
-		<!-- 			<button id="js-cliente-nao-button" type="button" -->
-		<!-- 				class="btn btn-secondary glyphicon glyphicon-remove"> -->
-		<%-- 				<spring:message code="label.nao" /> --%>
-		<!-- 			</button> -->
-		<!-- 		</div> -->
 	</div>
 	<!-- /.box-footer -->
 </form>
@@ -140,25 +124,24 @@
 
 <!-- Modal -->
 <div class="modal" id="modalConfimaExclusao" role="dialog">
-	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Atenção</h4>
-			</div>
-			<div class="modal-body">
-				<p>Deseja realemnte excluir o registro?</p>
-			</div>
-			<div class="modal-footer">
-				<button id="js-cliente-sim-button" type="button"
-					class="btn btn btn-primary glyphicon glyphicon-ok">
-					<spring:message code="label.sim" />
-				</button>
-				<button id="js-cliente-nao-button" type="button"
-					class="btn btn-secondary glyphicon glyphicon-remove"
-					data-dismiss="modal">
-					<spring:message code="label.nao" />
-				</button>
-			</div>
-		</div>
-	</div>
+   <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title">Atenção</h4>
+         </div>
+         <div class="modal-body">
+            <p>Deseja realmente excluir o registro?</p>
+         </div>
+         <div class="modal-footer">
+            <button id="btn-excluir-sim" type="button"
+               class="btn btn btn-primary glyphicon glyphicon-ok" data-dismiss="modal">
+               <spring:message code="label.sim" />
+            </button>
+            <button id="btn-excluir-nao" type="button"
+               class="btn btn-secondary glyphicon glyphicon-remove" data-dismiss="modal">
+               <spring:message code="label.nao" />
+            </button>
+         </div>
+      </div>
+   </div>
 </div>

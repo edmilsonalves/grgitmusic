@@ -1,5 +1,6 @@
 package br.com.sistema.web.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +9,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.sistema.web.entity.Artista;
+import br.com.sistema.web.entity.Musica;
 import br.com.sistema.web.exception.BusinessException;
 import br.com.sistema.web.repository.IArtistaRepository;
+import br.com.sistema.web.repository.IMusicaRepository;
 import br.com.sistema.web.service.IArtistaService;
+import br.com.sistema.web.util.SUtils;
 
 @Service
 @EnableTransactionManagement
@@ -18,6 +22,9 @@ public class ArtistaServiceImpl implements IArtistaService {
 
 	@Autowired
 	private IArtistaRepository artistaRepository;
+
+	@Autowired
+	private IMusicaRepository musicaRepository;
 
 	@Override
 	@Transactional(rollbackFor = { Exception.class })
@@ -38,8 +45,18 @@ public class ArtistaServiceImpl implements IArtistaService {
 
 	@Override
 	public void delete(Long id) throws BusinessException {
-		// TODO Auto-generated method stub
 
+		List<Musica> list = musicaRepository.findByToArtista(id);
+
+		if (!SUtils.isNullOrEmpty(list)) {
+			List<String> codBuscaList = new ArrayList<String>();
+			list.forEach(musica ->{
+				codBuscaList.add(musica.getNomeMusica());
+			});
+			throw new BusinessException("Artista não pode ser removido, está sendo utilizado nas seguintes musicas: "+codBuscaList);
+		}
+
+		this.artistaRepository.delete(id);
 	}
 
 	@Override

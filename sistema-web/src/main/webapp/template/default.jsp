@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="assets/dist/css/sistemaWeb.css">
 
 <!-- Bootstrap 3.3.6 necessário para o tema-->
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
 <!-- jQuery UI - v1.12.1-->
 <link rel="stylesheet" href="assets/plugins/jQueryUI/jquery-ui.css">
 <!-- Font Awesome necessário para o tema-->
@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="assets/plugins/ionicons/ionicons.min.css">
 
 <!-- Theme style necessário para o tema-->
-<link rel="stylesheet" href="assets/dist/css/AdminLTE.min.css">
+<link rel="stylesheet" href="assets/dist/css/AdminLTE.css">
 <!-- Theme style necessário para o tema-->
 <link rel="stylesheet" href="assets/dist/css/skins/skin-purple.min.css">
 
@@ -64,6 +64,7 @@
 
 <!-- mascaras -->
 <script src="assets/plugins/input-mask/jquery.maskedinput.min.js"></script>
+<script src="assets/plugins/input-mask/jquery.mask.min.js"></script>
 
 <!-- Configuraçoes gerais -->
 <script src="assets/dist/js/sistema.web.config.js"></script>
@@ -74,6 +75,7 @@
 <!-- Utils interno do sistema-->
 <script src="assets/dist/js/utils.js"></script>
 
+<script src="assets/dist/js/jquery-paginate.js"></script>
 
 </head>
 <!-- <body id="body-id" class="sidebar-mini wysihtml5-supported skin-purple sidebar-collapse" style="height: auto;"> -->

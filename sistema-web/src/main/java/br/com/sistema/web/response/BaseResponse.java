@@ -12,7 +12,7 @@ import java.util.List;
  *
  */
 @SuppressWarnings("rawtypes")
-public class DefaultResponse {
+public class BaseResponse {
 
 	private Long id;
 	private String message;

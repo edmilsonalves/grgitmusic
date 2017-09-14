@@ -36,15 +36,19 @@ $('#musica-salvar-button').click(function(){
 	saveMusica();
 });
 
+$('#btn-novo').click(function() {
+	limpar();
+	$('a[href="#musica-cadastro-tab"]').tab('show')
+});
+
 function addLinhaTabela(linha){
 	var linhaTabela = $('<tr/>');
 	$('.musica-table-body').append(linhaTabela);
-	linhaTabela.append("<td data-nome="+linha.id+" class='text-center' style='width:10%'><a class='btnCodLink editMusicaLink' href='#'>"+linha.id+"</td>");
-	linhaTabela.append("<td data-nome="+linha.id+" style='width:40%'>"+linha.nomeMusica+"</td>");
-	linhaTabela.append("<td data-nome="+linha.id+" style='width:40%'>"+linha.artista.nome+"</td>");
-	linhaTabela.append("<td data-nome="+linha.id+" style='width:40%'>"+linha.album+"</td>");
-	linhaTabela.append("<td data-nome="+linha.id+" style='width:40%'>"+linha.genero+"</td>");
-	linhaTabela.append("<td style='width:3%' class='text-center'><a id='deleteMusicaLink' href='#' class='glyphicon glyphicon-remove' style='color:red; font-size: 12px;'></a></td>");
+	linhaTabela.append("<td data-nome="+linha.id+" class='text-center' style='width:8%'><a class='btnCodLink editMusicaLink' href='#'>"+linha.id+"</td>");
+	linhaTabela.append("<td data-nome="+linha.id+" style='width:22%'>"+linha.nomeMusica+"</td>");
+	linhaTabela.append("<td data-nome="+linha.id+" style='width:22%'>"+linha.artista.nome+"</td>");
+	linhaTabela.append("<td data-nome="+linha.id+" style='width:22%'>"+linha.album+"</td>");
+	linhaTabela.append("<td data-nome="+linha.id+" style='width:22%'>"+linha.genero+"</td>");
 }
 
 
@@ -74,9 +78,6 @@ function saveMusica() {
 					addLinhaTabela(linha);
 				});
 
-				$('#input-musica-nome').val(null);
-				$('#input-musica-album').val(null);
-				$('#input-musica-genero').val(null);
 
 				$('.page-navigation').remove();
 				$('#musica-table').paginate({
@@ -89,6 +90,11 @@ function saveMusica() {
 			     }, 2000);
 
 				listIsEmpty();
+
+				if($('#input-hidden-musica-id').val() == null){
+					limpar();
+				}
+
 			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
@@ -97,36 +103,42 @@ function saveMusica() {
 	});
 }
 
-$(document).on("click","#deleteMusicaLink",function() {
-	var id = $(this).closest('tr').find('td[data-nome]').data('nome');
+$(document).on("click","#btn-excluir-sim",function() {
 	$.ajax({
 		type: 'DELETE',
-		url: rootMusicaURL+"/"+id,
+		url: rootMusicaURL+"/"+$('#input-hidden-musica-id').val(),
+	    beforeSend: function (xhr) {
+	        //Aqui adiciona o loader
+	    	$(".jquery-waiting-base-container" ).show();
+	    },
 		success: function(data, textStatus, jqXHR){
+			$(".jquery-waiting-base-container" ).hide();
+
+			$("#musica-table tbody").html("");
+			$.each(data.dataList,function(i,linha){
+				addLinhaTabela(linha);
+			});
 
 			if(data.error){
 				$('.msg-error').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
-
-				 setTimeout(function () {
-					 $('.msg-error').fadeOut(1000);
-			     }, 4000);
 			}else{
-
 				$('.msg-sucesso').empty().html('<span class="glyphicon glyphicon-ok"></span><strong>'+data.message+'</strong>').fadeIn("fast");
 				$('.msg-error').hide();
-
-				$("#musica-table-body tbody").html("");
-				$.each(data.dataList,function(i,linha){
-					addLinhaTabela(linha);
-				});
-
-				$('.page-navigation').remove();
-				$('#adicional-table').paginate({
-				    limit: 5,
-				    initialPage: 0
-				});
-				listIsEmpty();
 			}
+
+			$('.page-navigation').remove();
+			$('#adicional-table').paginate({
+			    limit: 5,
+			    initialPage: 0
+			});
+			listIsEmpty();
+
+			setTimeout(function () {
+				 $('.msg-sucesso-produto').fadeOut(1000);
+		    }, 2000);
+
+			limpar();
+
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			alert('deleteWine error');
@@ -134,6 +146,7 @@ $(document).on("click","#deleteMusicaLink",function() {
 	});
 
 });
+
 
 $(document).on("click",".editMusicaLink",function() {
 	var id = $(this).closest('tr').find('td[data-nome]').data('nome');
@@ -147,6 +160,7 @@ $(document).on("click",".editMusicaLink",function() {
 		}
 	});
 });
+
 
 function carregaComboArtista(descricao){
 	$.ajax({
@@ -188,9 +202,23 @@ $('#btn-musica-voltar').click(function(){
 	$('a[href="#musica-pesquisa-tab"]').tab('show');
 });
 
+$('#btn-limpar').click(function(){
+	limpar();
+	$('#msg-sucesso').hide();
+	carregaTabela();
+});
+
+
 
 $('a[href="#musica-pesquisa-tab"]').on("click",function() {
 	limpar();
+});
+
+$('#link-artista-novo').click(function(){
+	carregaArtistaTabela();
+	$('#artistaModal').modal('show');
+	$(document).off('focusin.teste');
+	$('#input-artista-nome').focus();
 });
 
 function limpar(){
@@ -200,11 +228,12 @@ function limpar(){
 	$('#input-musica-artista').val(null);
 	$('#input-musica-album').val(null);
 	$('#input-musica-genero').val(null);
+	carregaComboArtista(null);
 
 }
 
 function listIsEmpty() {
-	var cont = $(".musica-table-body tr").length;
+	var cont = $("#musica-table tr").length;
 	if (cont == 1) {
 		var linhaTabela = $('<tr/>');
 		$('.musica-table-body').append(linhaTabela);

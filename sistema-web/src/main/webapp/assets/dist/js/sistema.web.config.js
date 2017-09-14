@@ -170,7 +170,68 @@ function sAction() {
 
 $(document).ready(function() {
 	 $('.dataTables_filter input').attr("placeholder", "Pesquise aqui");
+//	 $("input[type='search']").attr("placeholder", "Pesquise aqui");
 });
+
+//remove acentos na hora de fazeer a pesquisa no datatable
+//jQuery.fn.DataTable.ext.type.search.string = function ( data ) {
+//    return ! data ?
+//        '' :
+//        typeof data === 'string' ?
+//            data
+//                .replace( /έ/g, 'ε')
+//                .replace( /ύ/g, 'υ')
+//                .replace( /ό/g, 'ο')
+//                .replace( /ώ/g, 'ω')
+//                .replace( /ά/g, 'α')
+//                .replace( /ί/g, 'ι')
+//                .replace( /ή/g, 'η')
+//                .replace( /\n/g, ' ' )
+//                .replace( /[áÁ]/g, 'a' )
+//                .replace( /[éÉ]/g, 'e' )
+//                .replace( /[íÍ]/g, 'i' )
+//                .replace( /[óÓ]/g, 'o' )
+//                .replace( /[úÚ]/g, 'u' )
+//                .replace( /ê/g, 'e' )
+//                .replace( /î/g, 'i' )
+//                .replace( /ô/g, 'o' )
+//                .replace( /è/g, 'e' )
+//                .replace( /ï/g, 'i' )
+//                .replace( /ü/g, 'u' )
+//                .replace( /ã/g, 'a' )
+//                .replace( /õ/g, 'o' )
+//                .replace( /ç/g, 'c' )
+//                .replace( /ì/g, 'i' ) :
+//            data;
+//};
+
+//Tradução dataTable default Portugues Brasil
+function traducaoDefaultDataTable() {
+	var traducao = {
+		"sEmptyTable" : "Nenhum registro encontrado",
+		"sInfo" : "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+		"sInfoEmpty" : "Mostrando 0 até 0 de 0 registros",
+		"sInfoFiltered" : "(Filtrados de _MAX_ registros)",
+		"sInfoPostFix" : "",
+		"sInfoThousands" : ".",
+		"sLengthMenu" : "_MENU_ resultados por página",
+		"sLoadingRecords" : "Carregando...",
+		"sProcessing" : "Processando...",
+		"sZeroRecords" : "Nenhum registro encontrado",
+		"oPaginate" : {
+			"sNext" : "Próximo",
+			"sPrevious" : "Anterior",
+			"sFirst" : "Primeiro",
+			"sLast" : "Último"
+		},
+		"oAria" : {
+			"sSortAscending" : ": Ordenar colunas de forma ascendente",
+			"sSortDescending" : ": Ordenar colunas de forma descendente"
+		}
+	};
+
+	return traducao;
+}
 
 // Tradução dataTable Portugues Brasil
 function traducaoDataTable() {
@@ -306,6 +367,42 @@ function validaData(data) {
     }
 }
 
+$(document).ready(function(){
+	  $('.date').mask('00/00/0000');
+	  $('.time').mask('00:00:00');
+	  $('.date_time').mask('00/00/0000 00:00:00');
+	  $('.cep').mask('00000-000');
+	  $('.phone').mask('0000-0000');
+	  $('.phone_with_ddd').mask('(00) 0000-0000');
+	  $('.phone_us').mask('(000) 000-0000');
+	  $('.mixed').mask('AAA 000-S0S');
+	  $('.cpf').mask('000.000.000-00', {reverse: true});
+	  $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+	  $('.moeda1').mask('000.000.000.000.000,00', {reverse: true});
+	  $('.moeda').mask("#.##0,00", {reverse: true});
+	  $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+	    translation: {
+	      'Z': {
+	        pattern: /[0-9]/, optional: true
+	      }
+	    }
+	  });
+	  $('.ip_address').mask('099.099.099.099');
+	  $('.percent').mask('##0,00%', {reverse: true});
+	  $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+	  $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+	  $('.fallback').mask("00r00r0000", {
+	      translation: {
+	        'r': {
+	          pattern: /[\/]/,
+	          fallback: '/'
+	        },
+	        placeholder: "__/__/____"
+	      }
+	    });
+	  $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+	});
+
 $(document).ready(function() {
 
 	$(".caixa_alta").blur(function() {
@@ -334,6 +431,43 @@ $('.campo_telefone').focusout(function(){
         element.mask("(99) 9999-9999?9");
     }
 }).trigger('focusout');
+
+
+$(document).ready(function(){
+	  $('.date').mask('00/00/0000');
+	  $('.time').mask('00:00:00');
+	  $('.date_time').mask('00/00/0000 00:00:00');
+	  $('.cep').mask('00000-000');
+	  $('.phone').mask('0000-0000');
+	  $('.phone_with_ddd').mask('(00) 0000-0000');
+	  $('.phone_us').mask('(000) 000-0000');
+	  $('.mixed').mask('AAA 000-S0S');
+	  $('.cpf').mask('000.000.000-00', {reverse: true});
+	  $('.cnpj').mask('00.000.000/0000-00', {reverse: true});
+	  $('.money').mask('000.000.000.000.000,00', {reverse: true});
+	  $('.moeda').mask("#.##0,00", {reverse: true});
+	  $('.ip_address').mask('0ZZ.0ZZ.0ZZ.0ZZ', {
+	    translation: {
+	      'Z': {
+	        pattern: /[0-9]/, optional: true
+	      }
+	    }
+	  });
+	  $('.ip_address').mask('099.099.099.099');
+	  $('.percent').mask('##0,00%', {reverse: true});
+	  $('.clear-if-not-match').mask("00/00/0000", {clearIfNotMatch: true});
+	  $('.placeholder').mask("00/00/0000", {placeholder: "__/__/____"});
+	  $('.fallback').mask("00r00r0000", {
+	      translation: {
+	        'r': {
+	          pattern: /[\/]/,
+	          fallback: '/'
+	        },
+	        placeholder: "__/__/____"
+	      }
+	    });
+	  $('.selectonfocus').mask("00/00/0000", {selectOnFocus: true});
+	});
 
 
 //############## SERIALIZE FORM JSON
@@ -440,4 +574,96 @@ jQuery.fn.reset = function() {
 		    }
 		   else
 		return true;
-		}
+}
+
+function paginacao(){
+	$('table.paginated').each(function() {
+		console.log('paginando');
+	    var currentPage = 0;
+	    var numPerPage = 3;
+	    var $table = $(this);
+	    $table.bind('repaginate', function() {
+	        $table.find('tbody tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+	    });
+	    $table.trigger('repaginate');
+	    var numRows = $table.find('tbody tr').length;
+	    var numPages = Math.ceil(numRows / numPerPage);
+	    var $pager = $('<ul class="pagination pagination-sm pull-right paginated-ul" style="margin-top: -15px"></ul>');
+	    for (var page = 0; page < numPages; page++) {
+	    	var pg = page + 1;
+	    	var active = '';
+	    	if(page == 0){
+	    		active  = ' active pageSelecionada'
+	    	}
+
+	    	$('<li class="page-item'+active+'"></li>').html('<a class="page-link" href="#">'+pg+'</a>').bind('click', {
+	            newPage: page
+	        }, function(event) {
+	            currentPage = event.data['newPage'];
+	            $table.trigger('repaginate');
+	            $(this).addClass('active pageSelecionada').siblings().removeClass('active pageSelecionada');
+
+		    	$(".pg-proximo").parent().removeClass('disabled');
+	    		$(".pg-proximo").prop('disabled', false);
+
+	    		$(".pg-anterior").parent().removeClass('disabled');
+	    		$(".pg-anterior").prop('disabled', false);
+
+	        }).appendTo($pager).addClass('clickable');
+
+	    }
+	    $pager.prepend('<li class="page-item"> <a class="page-link pg-anterior" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span> </a> </li>')
+	    .append('<li class="page-item"> <a class="page-link pg-proximo" href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span> </a> </li>')
+	    .insertAfter($table).find('span.page-number:first').addClass('active pageSelecionada');
+
+	    $(".pg-anterior").on("click",function() {
+	    	var pagina = currentPage - 1;
+
+//		    	console.log('Pagina atual: << '+currentPage);
+//		    	console.log('Pagina proxima: << '+pagina);
+
+	    	$(".pg-proximo").parent().removeClass('disabled');
+    		$(".pg-proximo").prop('disabled', false);
+
+	    	if(pagina >= 0){
+		        currentPage = pagina;
+		        $table.trigger('repaginate');
+		        $(".pageSelecionada").prev().addClass('active pageSelecionada').siblings().removeClass('active pageSelecionada');
+		        if(pagina === 0){
+		        	$(".pg-anterior").parent().addClass('disabled');
+		    		$(".pg-anterior").prop('disabled', true);
+		        }
+	    	}else{
+	    		$(".pg-anterior").parent().addClass('disabled');
+	    		$(".pg-anterior").prop('disabled', true);
+	    	}
+
+		});
+
+	    $(".pg-proximo").on("click",function() {
+	    	var pagina = currentPage + 1;
+
+//		    	console.log('Pagina atual >>: '+currentPage);
+//		    	console.log('Pagina proxima >>: '+pagina);
+
+	    	$(".pg-anterior").parent().removeClass('disabled');
+    		$(".pg-anterior").prop('disabled', false);
+
+	    	if(pagina < numPages){
+		        currentPage = pagina;
+		        $table.trigger('repaginate');
+		        $(".pageSelecionada").next().addClass('active pageSelecionada').siblings().removeClass('active pageSelecionada');
+
+		        if(pagina+1 === numPages){
+		        	$(".pg-proximo").parent().addClass('disabled');
+		    		$(".pg-proximo").prop('disabled', true);
+		        }
+	    	}else{
+	    		$(".pg-proximo").parent().addClass('disabled');
+	    		$(".pg-proximo").prop('disabled', true);
+	    	}
+
+		});
+
+	});
+}

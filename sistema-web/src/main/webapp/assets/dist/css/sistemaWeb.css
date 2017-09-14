@@ -1,5 +1,26 @@
-.modal.modal-wide .modal-dialog {
+/* .modal { */
+/* 	padding-top: 7%; */
+/* } */
+.modal.tam-30 .modal-dialog {
+	width: 30%;
+}
+
+.modal.width-40 .modal-dialog {
+	width: 40%;
+}
+
+.modal.width-50 .modal-dialog {
 	width: 50%;
+}
+
+/*scroll modal*/
+.modal-body {
+   overflow-y: auto;
+   max-height: 80vh;
+}
+
+.modal .modal-dialog {
+	width: 60%;
 }
 
 .div-titulo-pagina {
@@ -54,11 +75,12 @@
 	height: 100%;
 	display: block;
 	z-index: 9999997;
-	opacity: 0.65;
+	opacity: 0.50;
 	-moz-opacity: 0.65;
 	filter: alpha(opacity = 65);
 	background: black;
 	background-image: url("../img/ajax-loader.gif");
+	background-size: 60px 60px;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 	text-align: center;
@@ -72,34 +94,167 @@
 	font-size: 15px;
 }
 
-.item:hover .descricao{
-    display: block;
+.item:hover .descricao {
+	display: block;
 }
 
-.descricao{
-    display: none;
+.descricao {
+	display: none;
 }
-
 
 /*Lupa para todos os campos pesquiasr pesquisar*/
 input[type=search] {
-   background: url(../icones/search.png) no-repeat right;
-   width: 360px !important;
-   background-position: left;
-   margin-left: 25px;
-   padding: 15px;
-   padding-left: 32px;
-   font-size: 20px;
+	background: url(../icones/search.png) no-repeat right;
+	width: 360px !important;
+	background-position: left;
+	padding: 5px;
+	padding-left: 32px;
+	font-size: 15px;
 }
 /*Coloca input de pesquisa a esquerda*/
-.pull-left{float:left!important;}
-.pull-right{float:right!important;}
+.pull-left {
+	float: left !important;
+}
+
+.pull-right {
+	float: right !important;
+}
 
 /*ao passar o mouse no link muda a cor do link, aplicado somente nas telas de pesquisa e cadastro*/
-a.link{
-   text-decoration: underline;
+a.link {
+	color: #000000;
+	font: bold 11px Tahoma, Geneva, sans-serif;
+	text-decoration: underline;
 }
-a:hover.link{
-   color:#00FF00;
-   text-decoration: underline;
+
+/*muda a fonte dos campos label - sistema-web*/
+label{
+	font-size: 12px;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/*muda a fonte dos campos label - sistema-web*/
+label.situacao-estoque{
+	color:#333;
+	font-weight: normal;
+	font-size: 13px;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a:hover.link {
+	color: #32CD32;
+	text-decoration: underline;
+}
+
+.btnCodLink {
+	font: bold 13px Tahoma, Geneva, sans-serif;
+	color: #000000;
+	font-style: normal;
+	cursor: pointer;
+	margin: 0 auto;
+	text-decoration: underline;
+}
+
+a:hover.btnCodLink {
+	color: #32CD32;
+	text-decoration: underline;
+}
+
+/*muda a cor do cabeçalho das tabelas*/
+.cor-cabecalho th {
+	background-color: #3c8dbc;
+	color: #FFFFFF;
+}
+
+/*muda a cor do cabeçalho das tabelas de adicionais de produtos*/
+.cor-cabecalho-adicionais th {
+	background-color: #87CEEB;
+	color: #FFFFFF;
+}
+
+/*muda a cor do close modals*/
+button.close {
+    color: #fff;
+    opacity: 1;
+}
+
+/*css para paginaçao*/
+.page-navigation {
+   float:right;
+   margin-top: -10px;
+}
+.page-navigation a {
+/* margin: 0 2px; */
+display: inline-block;
+padding: 8px 8px;
+color: #000000;
+/* background-color: #70b7ec; */
+border-radius: 2px;
+border: 1px solid #ddd; /* Gray */
+text-decoration: none;
+font: bold 11px Tahoma, Geneva, sans-serif;
+
+}
+.page-navigation a[data-selected] {
+background-color: #87CEFF;
+color: #FFFFFF;
+}
+
+
+/*Alterar o formato do botões do campo adicionais*/
+.btn-adicional {
+	background-color:#3c8dbc;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+	border-bottom-right-radius:5px;
+	border-bottom-left-radius:5px;
+	text-indent:0;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#FFFFFF;
+	font-family:arial;
+	font-size:25px;
+	font-weight:bold;
+	font-style:normal;
+	height:20px;
+	line-height:19px;
+	width:40px;
+	text-decoration:none;
+	text-align:center;
+}
+
+/*mouse over nas label do botoes*/
+label.btn-label{
+	cursor: pointer;
+}
+
+/*Label do pedido*/
+label.pedido-valor-label{
+	font-size: 15px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: bold;
+}
+
+/*Label do pedido*/
+label.pedido-label{
+	font-size: 15px;
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: normal;
+}
+
+span.link-disabled{
+  pointer-events: none; /* Disables the button completely. Better than just cursor: default; */
+  opacity: 0.7;
+}
+
+.tabelaBuscarProduto td {
+  padding: 2px !important;
+}
+
+.tabelaPedido td {
+  padding: 4px !important;
+}
+
+.padding-4 td {
+  padding: 4px !important;
 }

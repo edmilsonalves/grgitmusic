@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,9 +19,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @Entity
 @Table(name = "musica")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class Musica extends BaseEntity implements Serializable {
+public class Musica implements Serializable {
 
 	private static final long serialVersionUID = -3462694502643038271L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonInclude(Include.NON_NULL)
@@ -95,6 +103,21 @@ public class Musica extends BaseEntity implements Serializable {
 	 */
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }
