@@ -3,16 +3,20 @@ var rootMusicaURL = "rest/musicas";
 
 var form = $('#musica-form');
 
+
+//carrega a tela
 $(document).ready(function() {
-	carregaTabela("");
+	pesquisarMusicas("");
 	carregaComboArtista("");
 });
 
+//ao digitar no campo pesquisar será efetuada uma pesquisa e vai populando a grid aos poucos
 $('#pesquisa-musica').keyup(function(){
-	carregaTabela($(this).val());
+	pesquisarMusicas($(this).val());
 });
 
-function carregaTabela(query){
+//pesquisa de musicas
+function pesquisarMusicas(query){
 	if(query === undefined){
 		query = '';
 	}
@@ -23,6 +27,7 @@ function carregaTabela(query){
 		success: function(data){
 			$("#musica-table tbody").html("");
 
+			//add os registros na table
 			$.each(data.dataList,function(i,linha){
 				addLinhaTabela(linha);
 			});
@@ -32,15 +37,19 @@ function carregaTabela(query){
 	});
 }
 
+//salva a musica ao clikar no bt salvar
 $('#musica-salvar-button').click(function(){
 	saveMusica();
 });
 
+//vai para aba de um novo cadastro
 $('#btn-novo').click(function() {
 	limpar();
 	$('a[href="#musica-cadastro-tab"]').tab('show')
 });
 
+
+//add uma linha na tabela
 function addLinhaTabela(linha){
 	var linhaTabela = $('<tr/>');
 	$('.musica-table-body').append(linhaTabela);
@@ -52,6 +61,7 @@ function addLinhaTabela(linha){
 }
 
 
+//salvar musica
 function saveMusica() {
 	var form = $('#musica-form');
 	$.ajax({
@@ -63,7 +73,7 @@ function saveMusica() {
 
 			if(data.error){
 				$('.msg-error').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
-
+				// mostra uma mensagem caso ocorra algum erro na operação
 				 setTimeout(function () {
 					 $('.msg-error').fadeOut(1000);
 			     }, 4000);
@@ -74,17 +84,21 @@ function saveMusica() {
 				$('.msg-error').hide();
 
 				$("#musica-table-body tbody").html("");
+
+				//add os registros na table
 				$.each(data.dataList,function(i,linha){
 					addLinhaTabela(linha);
 				});
 
 
+				//paginação da tabela de musicas
 				$('.page-navigation').remove();
 				$('#musica-table').paginate({
 				    limit: 5,
 				    initialPage: 0
 				});
 
+				//tirar a mensagem da tela aos poucos
 				 setTimeout(function () {
 					 $('.msg-sucesso').fadeOut(1000);
 			     }, 2000);
@@ -103,6 +117,7 @@ function saveMusica() {
 	});
 }
 
+//excluir uma musica caso a resposta da modal for sim
 $(document).on("click","#btn-excluir-sim",function() {
 	$.ajax({
 		type: 'DELETE',
@@ -115,10 +130,12 @@ $(document).on("click","#btn-excluir-sim",function() {
 			$(".jquery-waiting-base-container" ).hide();
 
 			$("#musica-table tbody").html("");
+			//add os registros na table
 			$.each(data.dataList,function(i,linha){
 				addLinhaTabela(linha);
 			});
 
+			//mostra uma mensagem de erro ou sucesso
 			if(data.error){
 				$('.msg-error').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
 			}else{
@@ -126,6 +143,7 @@ $(document).on("click","#btn-excluir-sim",function() {
 				$('.msg-error').hide();
 			}
 
+			//paginação da tabela de musicas
 			$('.page-navigation').remove();
 			$('#adicional-table').paginate({
 			    limit: 5,
@@ -147,7 +165,7 @@ $(document).on("click","#btn-excluir-sim",function() {
 
 });
 
-
+//ao clicar no link de edição vai para a aba de atualização
 $(document).on("click",".editMusicaLink",function() {
 	var id = $(this).closest('tr').find('td[data-nome]').data('nome');
 	$.ajax({
@@ -162,7 +180,7 @@ $(document).on("click",".editMusicaLink",function() {
 	});
 });
 
-
+//carrega a combobox de artistas
 function carregaComboArtista(descricao){
 	$.ajax({
 		type: 'GET',
@@ -182,6 +200,7 @@ function carregaComboArtista(descricao){
 	});
 }
 
+//popula o formulário
 function carregarForm(data){
 	var musica = data.entity;
 
@@ -196,25 +215,29 @@ function carregarForm(data){
 
 }
 
+//volta para aba de pesquisa
 $('#btn-musica-voltar').click(function(){
 	limpar();
 	$('#msg-sucesso').hide();
-	carregaTabela();
+	pesquisarMusicas();
 	$('a[href="#musica-pesquisa-tab"]').tab('show');
 });
 
+//limpa o formulário para nova inclusão
 $('#btn-limpar').click(function(){
 	limpar();
 	$('#msg-sucesso').hide();
-	carregaTabela();
+	pesquisarMusicas();
 });
 
 
-
+//clicou no link de edição e depois clicou nas abas, então o formulário vai ser limpo
 $('a[href="#musica-pesquisa-tab"]').on("click",function() {
 	limpar();
 });
 
+
+// na combobox de artista tem um link,  clicou nesse link vai abrir uma modal para controle dos artistas
 $('#link-artista-novo').click(function(){
 	carregaArtistaTabela();
 	$('#artistaModal').modal('show');
@@ -222,6 +245,7 @@ $('#link-artista-novo').click(function(){
 	$('#input-artista-nome').focus();
 });
 
+//limpa todo o formulário de cadastro de musicas
 function limpar(){
 	form.reset();
 
@@ -235,6 +259,7 @@ function limpar(){
 
 }
 
+//verifica se existe registro na tablea, caso não possua mostra uma mensagem
 function listIsEmpty() {
 	var cont = $("#musica-table tr").length;
 	if (cont == 1) {

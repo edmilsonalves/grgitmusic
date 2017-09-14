@@ -1,6 +1,3 @@
-/**
- * Edmilson.Reis
- */
 package br.com.sistema.web.rest;
 
 import java.util.ArrayList;
@@ -27,6 +24,7 @@ import br.com.sistema.web.service.IMusicaService;
 import br.com.sistema.web.util.SUtils;
 
 /**
+ * API REST para controle do cadastro de musicas
  * @author edmilson.reis
  *
  */
@@ -40,6 +38,11 @@ public class MusicaRest {
 	@Autowired
 	private IArtistaService artistaService;
 
+	/**
+	 * REST pesquisa musicas conforme pesquisa na tela
+	 * @param query
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/musicas/pesquisa", method = RequestMethod.GET)
 	public ResponseEntity<?> pesquisa(@RequestParam(required = false) String query) {
@@ -68,25 +71,11 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
-	@CrossOrigin
-	@RequestMapping(value = "/musicas", method = RequestMethod.GET)
-	public ResponseEntity<?> listar() {
-		BaseResponse response = new BaseResponse();
-
-		try {
-
-			response.setDataList(this.musicaService.findAll());
-			return ResponseEntity.status(HttpStatus.OK).body(response);
-		} catch (BusinessException e) {
-			response.setError(true);
-			response.setTypeError(SUtils.E_USER_WARNING);
-			response.setMessage(e.getMessage());
-			e.printStackTrace();
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
-
+	/**
+	 * REST Busca musica ao clikar no link para edição
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(value = "/musicas/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> buscar(@PathVariable("id") Long id) {
 		BaseResponse response = new BaseResponse();
@@ -106,6 +95,11 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	/**
+	 * REST salva a musica ao clikar no bt salvar
+	 * @param musica
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/musicas", method = RequestMethod.POST)
 	public ResponseEntity<?> save(@RequestBody Musica musica) {
@@ -128,6 +122,11 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	/**
+	 * REST exclui musica ao clikar no icone de exclusão
+	 * @param id
+	 * @return
+	 */
 	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value = "/musicas/{id}", method = RequestMethod.DELETE)
@@ -148,6 +147,10 @@ public class MusicaRest {
 		return ResponseEntity.ok(response);
 	}
 
+	/**
+	 * REST pesquisa artistas conforme pesquisa na tela
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/musicas/artistas", method = RequestMethod.GET)
 	public ResponseEntity<?> artistaList() {
@@ -167,6 +170,11 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+	/**
+	 * REST salva o artista ao clikar no bt ADD
+	 * @param artista
+	 * @return
+	 */
 	@CrossOrigin
 	@RequestMapping(value = "/musicas/artistas", method = RequestMethod.POST)
 	public ResponseEntity<?> saveArtista(@RequestBody Artista artista) {
@@ -189,6 +197,12 @@ public class MusicaRest {
 		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
+
+	/**
+	 * REST exclui artista ao clikar no icone de exclusão
+	 * @param id
+	 * @return
+	 */
 	@CrossOrigin
 	@ResponseBody
 	@RequestMapping(value = "/musicas/artistas/{id}", method = RequestMethod.DELETE)
