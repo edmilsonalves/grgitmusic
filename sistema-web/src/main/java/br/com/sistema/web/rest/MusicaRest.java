@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import br.com.sistema.web.entity.Artista;
 import br.com.sistema.web.entity.Musica;
@@ -115,12 +117,15 @@ public class MusicaRest {
 		BaseResponse response = new BaseResponse();
 
 		try {
-			String nomeNovoArquivo = SUtils.dataToNomeImg(new Date(), arquivo.getOriginalFilename());
 
-			saveFile(musica, arquivo, nomeNovoArquivo);
+			if(!SUtils.isNull(arquivo)){
+				String nomeNovoArquivo = SUtils.dataToNomeImg(new Date(), arquivo.getOriginalFilename());
+				saveFile(musica, arquivo, nomeNovoArquivo);
+				musica.setNomeArquivo(nomeNovoArquivo);
+			}
 
-			musica.setNomeArquivo(nomeNovoArquivo);
 			this.musicaService.save(musica);
+			response.setEntity(musica);
 			response.setDataList(this.musicaService.findAll());
 			response.setTypeError(SUtils.E_USER_SUCESS);
 			response.setMessage("Operação realizada com sucesso.");

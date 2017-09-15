@@ -5,8 +5,9 @@
 
 <form id="musica-form" role="form">
 
-	<input type="hidden" id="input-hidden-musica-id" name="id"> <input
-		type="hidden" id="input-hidden-nome-arquivo" name="nomeArquivo">
+	<input type="hidden" id="input-hidden-musica-id" name="id">
+	<input type="hidden" id="input-hidden-nome-arquivo" name="nomeArquivo">
+	<input type="hidden" id="input-hidden-path-arquivo" name="pathArquivo">
 
 	<div class="alert alert-danger msg-error" style="display: none;"></div>
 	<div class="alert alert-success msg-sucesso" style="display: none;"></div>

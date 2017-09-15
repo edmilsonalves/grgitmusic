@@ -8,6 +8,8 @@ var form = $('#musica-form');
 $(document).ready(function() {
 	pesquisarMusicas("");
 	carregaComboArtista("");
+	$("#link-add-artista").prop('disabled', true);
+	$("#link-add-artista").addClass("link-disabled");
 });
 
 //ao digitar no campo pesquisar será efetuada uma pesquisa e vai populando a grid aos poucos
@@ -64,69 +66,78 @@ function addLinhaTabela(linha){
 //salvar musica
 function saveMusica() {
 
-	formData = new FormData();
-	var form = $('#musica-form');
-	var musica = JSON.stringify(form.serializeObject());
+	if (verificarForm($('#musica-form')) == true) {
+			formData = new FormData();
+			var form = $('#musica-form');
+			var musica = JSON.stringify(form.serializeObject());
 
-	formData.append("musica", new Blob([musica], {
-        type : "application/json"
-    }));
-	var file = $('input[name="uploadfile"]').get(0).files[0];
-	formData.append("file", file);
+			formData.append("musica", new Blob([musica], {
+		        type : "application/json"
+		    }));
+			var file = $('input[name="uploadfile"]').get(0).files[0];
+			formData.append("file", file);
 
-	$.ajax({
-		url : rootMusicaURL,
-		type : 'POST',
-		processData : false,
-		contentType : false,
-		cache : false,
-		data : formData,
-		success : function(data) {
+			$.ajax({
+				url : rootMusicaURL,
+				type : 'POST',
+				processData : false,
+				contentType : false,
+				cache : false,
+				data : formData,
+			    beforeSend: function (xhr) {
+			        //Aqui adicionas o loader
+			    	$(".jquery-waiting-base-container" ).show();
+			    },
+				success : function(data) {
 
-			if(data.error){
-				$('.msg-error').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
-				// mostra uma mensagem caso ocorra algum erro na operação
-				 setTimeout(function () {
-					 $('.msg-error').fadeOut(1000);
-			     }, 4000);
-			}else{
-				var musica = data.entity;
+					if(data.error){
+						$('.msg-error').empty().html('<span class="glyphicon glyphicon-remove"></span><strong>'+data.message+'</strong>').fadeIn("fast");
+						// mostra uma mensagem caso ocorra algum erro na operação
+						 setTimeout(function () {
+							 $('.msg-error').fadeOut(1000);
+					     }, 4000);
+					}else{
+						var musica = data.entity;
 
-				$('.msg-sucesso').empty().html('<span class="glyphicon glyphicon-ok"></span><strong>'+data.message+'</strong>').fadeIn("fast");
-				$('.msg-error').hide();
+						$('.msg-sucesso').empty().html('<span class="glyphicon glyphicon-ok"></span><strong>'+data.message+'</strong>').fadeIn("fast");
+						$('.msg-error').hide();
 
-				$("#musica-table-body tbody").html("");
+						$("#musica-table-body tbody").html("");
+						$('#label-nome-arquivo').html(musica.nomeArquivo)
 
-				//add os registros na table
-				$.each(data.dataList,function(i,linha){
-					addLinhaTabela(linha);
-				});
+						//add os registros na table
+						$.each(data.dataList,function(i,linha){
+							addLinhaTabela(linha);
+						});
 
 
-				//paginação da tabela de musicas
-				$('.page-navigation').remove();
-				$('#musica-table').paginate({
-				    limit: 5,
-				    initialPage: 0
-				});
+						//paginação da tabela de musicas
+						$('.page-navigation').remove();
+						$('#musica-table').paginate({
+						    limit: 5,
+						    initialPage: 0
+						});
 
-				//tirar a mensagem da tela aos poucos
-				 setTimeout(function () {
-					 $('.msg-sucesso').fadeOut(1000);
-			     }, 2000);
+						//tirar a mensagem da tela aos poucos
+						 setTimeout(function () {
+							 $('.msg-sucesso').fadeOut(1000);
+					     }, 2000);
 
-				listIsEmpty();
+						listIsEmpty();
 
-				if($('#input-hidden-musica-id').val() == null){
-					limpar();
+						if($('#input-hidden-musica-id').val() == null){
+							limpar();
+						}
+						$(".jquery-waiting-base-container" ).hide();
+					}
+				},
+				error : function(jqXHR, textStatus, errorThrown) {
+					alert('Erro ao tentar incluir o registro: ' + textStatus);
 				}
+			});
+			resetarValidacoes();
+	}
 
-			}
-		},
-		error : function(jqXHR, textStatus, errorThrown) {
-			alert('Erro ao tentar incluir adicional: ' + textStatus);
-		}
-	});
 }
 
 //excluir uma musica caso a resposta da modal for sim
@@ -164,17 +175,18 @@ $(document).on("click","#btn-excluir-sim",function() {
 			listIsEmpty();
 
 			setTimeout(function () {
-				 $('.msg-sucesso-produto').fadeOut(1000);
+				 $('.msg-sucesso').fadeOut(1000);
 		    }, 2000);
 
 			limpar();
+			$(".jquery-waiting-base-container").hide();
 
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			alert('deleteWine error');
+			alert('error ao tentar excluir o registro');
 		}
 	});
-
+	resetarValidacoes();
 });
 
 //ao clicar no link de edição vai para a aba de atualização
@@ -184,12 +196,19 @@ $(document).on("click",".editMusicaLink",function() {
 		type: 'GET',
 		url: rootMusicaURL + '/' + id,
 		dataType: "json",
+	    beforeSend: function (xhr) {
+	        //Aqui adicionas o loader
+	    	$(".jquery-waiting-base-container" ).show();
+	    },
 		success: function(data){
 			carregarForm(data);
+
 			$('a[href="#musica-cadastro-tab"]').tab('show');
 			$('#btn-excluir-musica').attr('disabled', false);
+			$(".jquery-waiting-base-container").hide();
 		}
 	});
+	resetarValidacoes();
 });
 
 //carrega a combobox de artistas
@@ -219,6 +238,7 @@ function carregarForm(data){
 	$('#input-hidden-musica-id').val(musica.id);
 	$('#input-musica-nome').val(musica.nomeMusica);
 	$('#input-hidden-nome-arquivo').val(musica.nomeArquivo);
+	$('#input-hidden-path-arquivo').val(musica.pathArquivo);
 	$('#label-nome-arquivo').html(musica.nomeArquivo)
 
 	carregaComboArtista(musica.artista.nome);
@@ -244,6 +264,7 @@ $('#btn-musica-voltar').click(function(){
 	$('#msg-sucesso').hide();
 	pesquisarMusicas();
 	$('a[href="#musica-pesquisa-tab"]').tab('show');
+	resetarValidacoes();
 });
 
 //limpa o formulário para nova inclusão
@@ -277,8 +298,12 @@ function limpar(){
 	$('#input-musica-artista').val(null);
 	$('#input-musica-album').val(null);
 	$('#input-musica-genero').val(null);
+	$('#input-hidden-nome-arquivo').val(null);
+	$('#input-hidden-path-arquivo').val(null);
+	$('#label-nome-arquivo').html('')
 	carregaComboArtista(null);
 	$('#btn-excluir-musica').attr('disabled', true);
+	resetarValidacoes();
 
 }
 
@@ -292,3 +317,25 @@ function listIsEmpty() {
 				.append("<td valign='top' colspan='2' class='dataTables_empty'>Nenhum registro encontrado</td>");
 	}
 }
+
+
+// habilita/desabilita btn add da modal artista
+function habDesabArtistaBtAdd(valor){
+    if( valor == null || valor.length == 0 || /^\s+$/.test(valor) ) {
+    	$("#link-add-artista").addClass("link-disabled");
+    }else{
+    	$("#link-add-artista").removeClass("link-disabled");
+    }
+}
+
+$("#input-artista-nome").keyup(function() {
+	habDesabArtistaBtAdd($(this).val());
+});
+
+$("#input-artista-nome").focusout(function(){
+	habDesabArtistaBtAdd($(this).val());
+});
+
+$("#input-artista-nome").focus(function(){
+	habDesabArtistaBtAdd($(this).val());
+});
